@@ -83,7 +83,7 @@ const updateCircleCIProjectEnvVar = async (newRefreshToken: string) => {
   if (!response.ok) {
     const text = await response.text();
     throw new Error(
-      `Failed to update CircleCI project env var:status=${response.status}, response=${text}`,
+      `Failed to update CircleCI project env var: status=${response.status}, response=${text}`,
     );
   }
 };
