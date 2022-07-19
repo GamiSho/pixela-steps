@@ -14,8 +14,6 @@ jobs:
           node-version: '16.15'
       - run: node --version
 workflows:
-  fitbit-steps-to-pixela:
+  fitbit_steps_to_pixela:
     jobs:
       - install-node
-      - node/run:
-          yarn-run: main
