@@ -9,7 +9,9 @@ const fetchNewTokensFromFitbit = async () => {
 
   const refreshToken = process.env.FITBIT_REFRESH_TOKEN;
   if (!refreshToken) {
-    throw new Error('FITBIT_REFRESH_TOKEN environment variable does not exist.');
+    throw new Error(
+      'FITBIT_REFRESH_TOKEN environment variable does not exist.',
+    );
   }
 
   const params = new URLSearchParams();
@@ -20,13 +22,15 @@ const fetchNewTokensFromFitbit = async () => {
     method: 'POST',
     body: params,
     headers: {
-      'accept': 'application/json',
-      'authorization': `Basic ${basicToken}`,
+      accept: 'application/json',
+      authorization: `Basic ${basicToken}`,
     },
   });
   if (!response.ok) {
     const text = await response.text();
-    throw new Error(`Failed to fetch new tokens from Fitbit. status: ${response.status}, response=${text}`);
+    throw new Error(
+      `Failed to fetch new tokens from Fitbit. status: ${response.status}, response=${text}`,
+    );
   }
   const json = await response.json();
   return [json.access_token, json.refresh_token];
@@ -57,23 +61,30 @@ const updateCircleCIProjectEnvVar = async (newRefreshToken: string) => {
   }
   const myCircleProjectSlug = process.env.MY_CIRCLE_PROJECT_SLUG;
   if (!myCircleProjectSlug) {
-    throw new Error('MY_CIRCLE_PROJECT_SLUG environment variable does not exist.');
+    throw new Error(
+      'MY_CIRCLE_PROJECT_SLUG environment variable does not exist.',
+    );
   }
   const body = {
     name: 'FITBIT_REFRESH_TOKEN',
     value: newRefreshToken,
   };
-  const response = await nodeFetch(`https://circleci.com/api/v2/project/${myCircleProjectSlug}/envvar`, {
-    method: 'POST',
-    body: JSON.stringify(body),
-    headers: {
-      'content-type': 'application/json',
-      'circle-token': myCircleApiToken,
+  const response = await nodeFetch(
+    `https://circleci.com/api/v2/project/${myCircleProjectSlug}/envvar`,
+    {
+      method: 'POST',
+      body: JSON.stringify(body),
+      headers: {
+        'content-type': 'application/json',
+        'circle-token': myCircleApiToken,
+      },
     },
-  });
+  );
   if (!response.ok) {
     const text = await response.text();
-    throw new Error(`Failed to update CircleCI project env var: status=${response.status}, response=${text}`);
+    throw new Error(
+      `Failed to update CircleCI project env var:status=${response.status}, response=${text}`,
+    );
   }
 };
 
@@ -86,21 +97,26 @@ const saveNewRefreshToken = async (newRefreshToken: string) => {
 };
 
 interface Steps {
-  dateTime: string,
-  value: string,
+  dateTime: string;
+  value: string;
 }
 
 const fetchStepsFromFitbit = async (accessToken: string): Promise<Steps[]> => {
-  const response = await nodeFetch('https://api.fitbit.com/1/user/-/activities/steps/date/today/7d.json', {
-    method: 'GET',
-    headers: {
-      'accept': 'application/json',
-      'authorization': `Bearer ${accessToken}`,
+  const response = await nodeFetch(
+    'https://api.fitbit.com/1/user/-/activities/steps/date/today/7d.json',
+    {
+      method: 'GET',
+      headers: {
+        accept: 'application/json',
+        authorization: `Bearer ${accessToken}`,
+      },
     },
-  });
+  );
   if (!response.ok) {
     const text = await response.text();
-    throw new Error(`Failed to fetch steps from Fitbit: ${response.status}, response=${text}`);
+    throw new Error(
+      `Failed to fetch steps from Fitbit: ${response.status}, response=${text}`,
+    );
   }
   const json = await response.json();
   return json['activities-steps'];
@@ -128,7 +144,9 @@ const putToPixela = async ({ dateTime, value: quantity }: Steps) => {
   });
   if (!response.ok) {
     const text = await response.text();
-    throw new Error(`Failed to put steps to Pixela: status=${response.status}, response=${text}`);
+    throw new Error(
+      `Failed to put steps to Pixela: status=${response.status}, response=${text}`,
+    );
   }
 };
 
