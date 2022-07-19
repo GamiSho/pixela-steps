@@ -3,9 +3,19 @@ version: 2.1
 orbs:
   node: circleci/node@5.0.0
 
+jobs:
+  install-node:
+    docker:
+      - image: 'cimg/base:stable'
+    steps:
+      - checkout
+      - node/install:
+          install-yarn: true
+          node-version: '16.15'
+      - run: node --version
 workflows:
+  - install-node
   fitbit-steps-to-pixela:
     jobs:
       - node/run:
-          version: '16.15.1'
           yarn-run: main
