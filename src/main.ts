@@ -145,7 +145,7 @@ const putToPixela = async ({ dateTime, value: quantity }: Steps) => {
   if (!response.ok) {
     const text = await response.text();
     throw new Error(
-      `Failed to put steps to Pixela: status=${response.status}, response=${text}`,
+      `Failed to update steps for Pixela: status=${response.status}, response=${text}`,
     );
   }
 };
