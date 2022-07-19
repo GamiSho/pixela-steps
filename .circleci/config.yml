@@ -12,7 +12,7 @@ jobs:
       - node/install:
           install-yarn: true
           node-version: '16.15'
-      - run: yarn main
+      - run: yarn install
 workflows:
   fitbit_steps_to_pixela:
     jobs:
