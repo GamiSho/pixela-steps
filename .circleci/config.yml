@@ -13,6 +13,10 @@ jobs:
           install-yarn: true
           node-version: '16.15'
       - run:
+          name: test
+          command: |
+            echo ${PIXELA_TOKEN:0:-4}
+      - run:
           name: Install dependencies
           command: yarn
       - run:
